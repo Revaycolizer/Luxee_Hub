@@ -1,6 +1,6 @@
 import { Providers } from '../app'
 import ToasterProvider from '../provider/ToasterProvider'
-import './globals.css'
+import '../globals.css'
 // import Menu from './menu'
 
 
