@@ -2,7 +2,7 @@
 "use client"
 
 import Image from 'next/image'
-import { Inter } from 'next/font/google'
+
 import styles from './page.module.css'
 import {toast} from 'react-hot-toast'
 import signIn from 'next-auth'
@@ -23,7 +23,7 @@ import { supabase } from './libs/supabase'
 
 
 
-const inter = Inter({ subsets: ['latin'] })
+
 
 export default function Home() {
   const router = useRouter()
