@@ -1,14 +1,17 @@
 "use client"
 
-import { useEffect } from "react"
+import { useCallback, useEffect, useState } from "react"
 import Search from "../search"
 import { supabase } from "@/app/libs/supabase"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import toast from "react-hot-toast"
 
 
 
 export default function profile(){
+  const [profile,setProfile] = useState<string[]>([])
+
+  const search = useSearchParams()
 
     const router = useRouter()
 
@@ -16,24 +19,28 @@ export default function profile(){
      User()
     })
 
-    const User =async()=>{
+    const User =useCallback(async()=>{
       const {data:{user}} =  await supabase.auth.getUser()
 
+
+
       if(user){
-        const{error} = await supabase.from("profiles").select().eq('email',user)
-        if(error){
-           const load = toast.loading("Redirecting to Login Page")
-           setTimeout(()=>{
-            toast.dismiss(load)
-           },500)
-            router.push('/')
+        // const userId = router.search.id
+        const{data} = await supabase.from("profiles").select().eq('email',user.email)
+        if(data){
+          //  setProfile(data)
+          // console.log(data)
         }
         console.log(user)
       }
       else{
-        router.push('/home')
+        const load = toast.loading("Redirecting to Login Page")
+           setTimeout(()=>{
+            toast.dismiss(load)
+           },500)
+            router.push('/')
       }
-    }
+    },[])
 
     // const getUser=async()=>{
     //  const{error} = await supabase.from("profiles").select().eq()

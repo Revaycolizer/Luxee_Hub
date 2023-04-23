@@ -8,21 +8,11 @@ import { Input } from '@/components/input'
 import { Label } from '@/components/label'
 import { Button } from '@/components/loginbtn'
 import {useRouter} from 'next/navigation'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import src from '@/app/icons/lx.png'
 import Link from 'next/link'
 import axios from 'axios'
 import { supabase } from '../libs/supabase'
-
-interface RegisterProps{
-  data:{
-    email:string;
-    name:string;
-    password:string;
-  }
-}
-
-
 
 export default function Register(){
     const router = useRouter()
@@ -33,29 +23,9 @@ export default function Register(){
     const [phone,setPhone] = useState('')
    
   
-    const handleSubmit =async(e:React.FormEvent)=>{
-     
+    const handleSubmit =useCallback(async(e:React.FormEvent)=>{  
         e.preventDefault()
-
-        // if(!email||!password){
-        //   toast.error("Fill all required fields")
-        // }
-      
-      
-      // const data={email:email,password:password}
       if(email && password && confirmpassword &&confirmpassword==password){
-      //   const dat={email,password}
-      // axios.post('/api/register',dat)
-      // await prisma.user.create({
-      //   data:{
-      //     email,
-      //     name,
-      //     hashedPassword
-      //   }
-      // })
-    
-      const dataForm ={email,name,}
-
       try{
 
    const {error} =   await supabase.auth.signUp({
@@ -81,34 +51,18 @@ export default function Register(){
     }catch(error){
       toast.error('Something went wrong')
     }
-      // axios.post('api/post',dataForm)
-      
-      // if(user){
-      //   router.push('/home')
-      // }
-      // .then(()=>{
-      //   toast.success("Successfully registered")
-      //   router.push("/home")
-      // })
-      // .catch((error)=>{
-      //   toast.error("Something went wrong")
-      // })
-      
-    }
-    // if(!email||!password){
-    //   toast.error('Fill all reuqired fields')
-    // }
-    else{ 
-      toast.error('Password does not match')
-      
+    
     }
     
+    else{ 
+      toast.error('Password does not match')
+    }
   
-  }
+  },[email,name,password,phone,confirmpassword])
     return (
       
       
-      <main className='py-4 md:py-40 lg:py-10 flex justify-center items-center'>
+      <main className='py-8 md:py-40 lg:py-10 flex justify-center items-center'>
      
            
          

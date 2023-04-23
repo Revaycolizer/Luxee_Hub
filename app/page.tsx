@@ -10,20 +10,10 @@ import { Input } from '@/components/input'
 import { Label } from '@/components/label'
 import { Button } from '@/components/loginbtn'
 import {useRouter} from 'next/navigation'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import src from '../app/icons/lx.png'
 import Link from 'next/link'
 import { supabase } from './libs/supabase'
-
-
-
-
-
-
-
-
-
-
 
 export default function Home() {
   const router = useRouter()
@@ -31,7 +21,7 @@ export default function Home() {
   const [password,setPassword] =useState('')
   const [error,setFormError] = useState('')
 
-  const handleSubmit = async(e:React.FormEvent)=>{
+  const handleSubmit = useCallback(async(e:React.FormEvent)=>{
     e.preventDefault()
     try{
     const {error} =   await supabase.auth.signInWithPassword({
@@ -49,22 +39,8 @@ export default function Home() {
   }catch(error){
     toast.error('Invalid credentials')
   }
-  //   if(username && password){
-  //     if(!username||!password){
-  //       toast.error("You must fill all fields")
-  //     }
-      
-  //     toast.success("Successfully logged in")
-  //   router.push("/home")
-  //   setFormError('')
-      
-  // }
-  // else{
-    // alert('Wrong email and password')
-  //   toast.error('Wrong email and password')
-  //   setFormError('Wrong email and password')
-  // }
-}
+
+},[email,password])
   return (
     <>
     
