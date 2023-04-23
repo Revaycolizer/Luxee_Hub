@@ -1,0 +1,8 @@
+.c{
+    width: 20px;
+  }
+  @media(max-width:280px){
+    .c{
+      width: 4px;
+    }
+  }
