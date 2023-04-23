@@ -138,7 +138,7 @@ export default function Register(){
           <Input type="password" placeholder='Confirm password' name="confirmpassword" value={confirmpassword} required
             onChange={(e)=>setConfirmPassword(e.target.value)}
           ></Input>
-          <Button type="submit" >Register</Button>
+          <Button variant="default" type="submit" >Register</Button>
           <div className='flex flex-row text-center justify-center items-center gap-3'>
             <p className='text-bra'>Already having an Account?</p>
             <Link className='cursor-pointer font-bold text-blue-900' href='/'>Login</Link>
