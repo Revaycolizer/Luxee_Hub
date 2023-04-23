@@ -108,7 +108,7 @@ export default function Register(){
     return (
       
       
-      <main className='py-28 md:py-40 lg:py-10 flex justify-center items-center'>
+      <main className='py-8 md:py-40 lg:py-10 flex justify-center items-center'>
      
            
          

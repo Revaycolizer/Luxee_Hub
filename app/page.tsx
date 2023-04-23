@@ -81,7 +81,7 @@ export default function Home() {
       
         
         <Label>Password:</Label>
-        <Input required type="password" name="password" value={password} 
+        <Input required placeholder="Password" type="password" name="password" value={password} 
           onChange={(e)=>setPassword(e.target.value)}
         ></Input>
         <Button type="submit" >Login</Button>
