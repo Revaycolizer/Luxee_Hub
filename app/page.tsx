@@ -84,7 +84,7 @@ export default function Home() {
         <Input required placeholder="Password" type="password" name="password" value={password} 
           onChange={(e)=>setPassword(e.target.value)}
         ></Input>
-        <Button type="submit" >Login</Button>
+        <Button variant="default" type="submit" >Login</Button>
         <div className='flex flex-row text-center justify-center items-center'>
           <Link href='/register'>Create an Account</Link>
         </div>
