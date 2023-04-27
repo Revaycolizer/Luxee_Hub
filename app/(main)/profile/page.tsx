@@ -68,7 +68,7 @@ export default function profile(){
             <h4 className='text-white text-2xl text-center md:text-3xl lg:text-3xl'>My Profile</h4>
             </div>
             </section>
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center lg:py-4">
             {profiles && profiles.map((profile: any)=>(<Profile key={profile.id} profile={profile}  />))}
   
             </div>

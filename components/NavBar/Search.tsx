@@ -12,7 +12,9 @@ export default function QSearch(){
     className="p-2
     bg-rose-500
     rounded-full
-    text-white"
+    text-white
+    
+    "
     >
     <BiSearch size={18}/>
     </div>
