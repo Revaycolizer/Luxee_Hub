@@ -28,6 +28,7 @@ import { useState } from "react"
   } from '@chakra-ui/react'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
+import { supabase } from '../libs/supabase'
 
 
  
@@ -40,9 +41,14 @@ export default function menu(){
   const btnRef = React.useRef(null)
   const [search,setSearch]=useState('')
 
-  const handleLog = useCallback(()=>{
+  const handleLog = useCallback(async()=>{
+    const {error} = await supabase.auth.signOut()
+    if(error){
+      toast.error('Something went wrong')
+    }else{
     toast.success('logged out successfully')
     router.push('/')
+    }
  },[])
 
  
@@ -144,11 +150,10 @@ export default function menu(){
             </Stack>
           </DrawerBody>
 
-          <DrawerFooter>
-            <Button variant='outline' mr={3} onClick={onClose}>
+          <DrawerFooter className='flex items-center justify-center'>
+            <Button  variant='outline' mr={3} onClick={onClose}>
               Cancel
             </Button>
-            <Button disabled colorScheme='blue'>Save</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

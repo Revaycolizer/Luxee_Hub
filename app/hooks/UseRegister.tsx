@@ -1,24 +1,20 @@
-// import { supabase } from "../libs/supabase";
+// import React from 'react'
+// import { NextResponse } from 'next/server'
+// import { supabase } from '../libs/supabase';
 
+// export default async function UseRegister (){
+//  const res = NextResponse.next()
 
-// interface Props{
-//     email : string;
-//     password: string
+// //  const supabase = ({ req, res });
+
+//    const {
+//      data: { session },
+//    } = await supabase.auth.getSession();
+ 
+//    return res;
 // }
 
-// const Register:React.FC<Props>=({email,password})=>{
-  
-    
+// export const config = {
+//   matcher: ['/profile','/home',],
+// };
 
-
-// const  useRegister:React.FC<Props>=async(email,password)=> {
-//     const user = await supabase.auth.signUp({
-//         email,
-//         password
-//      })
-    
-//     throw new Error("Function not implemented.");
-// }
-
-
-// }
