@@ -5,10 +5,9 @@ import Search from "@/app/(main)/search"
 
 import Avatar from "@/app/(main)/avatar"
 import Container from "@/app/(main)/Container"
-import Combo from "@/app/(main)/combo"
-import Title from "./Title"
+
 import Logo from "./Logo"
-import QSearch from "./Search"
+
 
 export default function Navbar(){
     return(
@@ -23,7 +22,7 @@ export default function Navbar(){
         gap-3
         md:gap-0">
        
-       <Logo/> <Menu/><Search/><QSearch/><Avatar/><Combo/>
+       <Logo/> <Menu/><Search/><Avatar/>
         
         </div>
         </Container>

@@ -99,7 +99,7 @@ const DialogTitle = React.forwardRef<
     ref={ref}
     className={cn(
       "text-lg font-semibold text-slate-900",
-      "dark:text-slate-50",
+      "dark:text-slate-500",
       className
     )}
     {...props}

@@ -28,16 +28,12 @@ export default function profile(){
 
     const router = useRouter()
 
-    const res = NextResponse.next()
-
     useEffect(()=>{
      User()
     },[])
 
     const User =useCallback(async()=>{
       const {data:{user}} =  await supabase.auth.getUser()
-
-
 
       if(user){
         const{data} = await supabase.from("profiles").select().eq('email',user.email)

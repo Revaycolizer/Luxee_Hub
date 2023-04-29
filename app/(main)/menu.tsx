@@ -29,6 +29,7 @@ import { useState } from "react"
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import { supabase } from '../libs/supabase'
+import {HiOutlineMenuAlt1} from 'react-icons/hi'
 
 
  
@@ -114,17 +115,18 @@ export default function menu(){
         </div>
        
     </section>
-    <section className='px-3 py-6 md:py-12'>
+    <section className='md:px-3 px-0 py-6 md:py-12'>
 
     <Show below='lg'>
       
     <Button  ref={btnRef}  onClick={onOpen}>
-    <Image  className='w-6 md:w-9' priority src={src} alt=""></Image>
+      <HiOutlineMenuAlt1 size={32}/>
+    {/* <Image  className='w-6 md:w-9' priority src={src} alt=""></Image> */}
       </Button>
       
       <Drawer
         isOpen={isOpen}
-        placement='right'
+        placement='left'
         onClose={onClose}
         finalFocusRef={btnRef}
       >
