@@ -29,7 +29,7 @@ export default function avatar(){
   </section>
 
 <section className="md:py-5" onClick={handleLog}>
-<AiOutlineLogout size={32}/>
+<AiOutlineLogout color="red" size={32}/>
 </section>
 </section>
   

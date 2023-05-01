@@ -5,24 +5,40 @@ import { supabase } from "../libs/supabase";
 import SearchedUser from "@/components/searcheduser/searcheduser";
 import toast from "react-hot-toast";
 import { Dialog, DialogContent, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
-import { DialogFooter } from "@/components/dialog";
+
 
 
 
 export default function search(){
+
+    // const Home = async({searchParams={}}:HomeProps)=> {
+    //     const {userId, ...params} = searchParams;
+    //     const listings = await getListings({userId, ...params} ) .... }
+
     const [search,setSearch]=useState('')
     const [cusers,setCuser] = useState<any |null>(null)
 
     const searchUser=useCallback(async()=>{
-        
+        if(search.length>=1){
      
-        const data = await supabase.from('profiles').select('name').eq('name',search)
+        const {data,error} = await supabase.from('profiles').select('name').eq('name',search)
         if(data){
-        setCuser(data.data)
+        setCuser(data)
+        }
+        else if(error){
+            toast.error('Check your internet Connection')
+        }
+        else if(search !== data){
+            toast.error('user not found')
         }
         else{
             toast.error('User not found')
         }
+    }
+    else{
+        toast.error('Cannot search null value')
+    }
+       
         
     },[search])
 
@@ -36,7 +52,7 @@ export default function search(){
                 </DialogTrigger>
                 <DialogContent>
                     <div className="flex flex-row justify-between gap-3">
-                    <Input className="w-48 h-4 md:w-96 lg:w-80" value={search} onChange={
+                    <Input className="w-48 h-4 md:w-96 lg:w-80" type="text" required value={search} onChange={
                    (e)=>setSearch(e.target.value)
                     } placeholder="Search here"  />
                     
