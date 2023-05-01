@@ -66,7 +66,7 @@ export default function search(){
     "
     onClick={searchUser}
     >
-    <BiSearch size={26}/>
+    <BiSearch size={23}/>
     </div>
     </div>
     

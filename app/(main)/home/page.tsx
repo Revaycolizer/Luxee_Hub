@@ -51,18 +51,15 @@ export default function page(){
 
   const handlePost =useCallback(async()=>{
     if(user){
-    if(vname){ 
+  
     try{
       if(vfile){
         const uploadfile = await supabase.storage.from('files').upload(vname,vfile, {
           cacheControl: '3600',
-          upsert: false
-        });
-        
+          upsert: false })
        setFile_url(uploadfile)
       }
       if(vname){
-        
         const data = await supabase.from('category').insert({
           vname:vname,
           file_url:file_url,
@@ -70,21 +67,22 @@ export default function page(){
           user:user
         })
         
-        if(data){
+        if(data && vname && vfile){
          
           toast.success('Post uploaded successfully')
           setOpen(false)
           }
+          else{
+            toast.error('Unable to post')
+          }
       }
-      
     }catch(error){
      toast.error('Something went wrong')
     }
     
-    }
-  }else{
+   }else{
     toast.error('You need to sign in')
-  }
+   }
   },[vname,vfile,selectedValue,file_url,user])
 
   const fetchPosts=useCallback(async()=>{
@@ -97,10 +95,10 @@ export default function page(){
 
     if(data){
       
-const error  = await supabase
-.storage
-.from('files')
-.download(vname)
+    const error  = await supabase
+    .storage
+    .from('files')
+    .download(vname)
 
     }
   

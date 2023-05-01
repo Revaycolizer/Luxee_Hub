@@ -120,7 +120,7 @@ export default function menu(){
     <Show below='lg'>
       
     <Button  ref={btnRef}  onClick={onOpen}>
-      <HiOutlineMenuAlt1 size={32}/>
+      <HiOutlineMenuAlt1 size={26}/>
     {/* <Image  className='w-6 md:w-9' priority src={src} alt=""></Image> */}
       </Button>
       
