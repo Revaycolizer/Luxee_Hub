@@ -1,15 +1,17 @@
-// interface Props{
-// data:Blob;
-// }
+interface Props{
+signedUrl:any;
+}
 
 
 
-// import React from 'react'
+import React from 'react'
 
-// const Downloads = ({download}:{download:Props}) => {
-//   return (
-//     <div>{download.data}</div>
-//   )
-// }
+const Downloads = ({download}:{download:Props}) => {
+  return (
+    
+    <div><img src={`${download.signedUrl}`}/><img src={download.signedUrl}/></div>
 
-// export default Downloads
+  )
+}
+
+export default Downloads

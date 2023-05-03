@@ -11,7 +11,9 @@ import { Select,SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectLa
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { supabase } from '@/app/libs/supabase'
-// import Downloads from '@/components/download/downloaded'
+import Downloads from '@/components/download/downloaded'
+import File from '@/components/download/file'
+import Image from 'next/image'
 
 export default function page(){
   const [vname,setVname] = useState('')
@@ -21,6 +23,7 @@ export default function page(){
   const [file_url,setFile_url] = useState<any | null>(null)
   const [user,setUser] = useState<any | null>(null)
   const [downloads,setDownload] =useState<any | null>(null)
+  const [dfiles,setDfiles] = useState<any | null>(null)
   const router = useRouter()
 
   useEffect(()=>{
@@ -91,8 +94,6 @@ export default function page(){
   },[vname,vfile,selectedValue,file_url,user])
 
   const fetchPosts=useCallback(async()=>{
-  
-
     const { data:files } = await supabase
     .storage
     .from('files')
@@ -101,19 +102,23 @@ export default function page(){
     if(files){
     for (const file of files) {
     //   console.log(file)
-    //   const { data:posts } = await supabase.storage.from('files').createSignedUrl(file.name, 3600000)
-    //  if(posts){
+      const { data:posts } = await supabase.storage.from('files').createSignedUrl(file.name, 3600000)
+     if(posts){
       // for(const post of posts){
-      const dwn = await supabase.storage.from('files').download(file.name)
+      // const dwn = await supabase.storage.from('files').download(file.name)
+        
+      const diwn = await supabase.from('category').select().eq('vname',file.name)
       // }
-      setDownload(dwn)
-      console.log(dwn)
+      // setDownload(URL.createObjectURL(dwn))
+      setDownload([posts])
+      setDfiles(diwn)
+      console.log(posts)
+      console.log(diwn)
       // }
+    }
      
     }
   }
-  
-
   },[])
   return (
     <>
@@ -170,9 +175,12 @@ export default function page(){
     </DialogContent>
     </Dialog></form></div>
     
-    {/* <div className='grid lg:grid-cols-3 gap-3'>
-    {downloads && downloads.map((download:any)=>(<Downloads key={download.id} download={download}/>))}
-    </div> */}
+    <div className=' px-4 md:grid grid-clos-3 lg:grid lg:grid-cols-3 gap-3'>
+    {downloads && (downloads).map((download:any)=>(<Downloads key={download.signedUrl} download={download}/>))}
+    {/* {dfiles && dfiles.map((dfile:any)=>(<File key={dfile.id} dfile={dfile}/>))} */}
+    {/* {Object.keys(downloads).map((value)=>{return(
+    <img src={`${downloads[value].signedUrl}`} alt={downloads[value].name}/>)})} */}
+    </div>
     
     </section>
     </>
