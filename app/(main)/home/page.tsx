@@ -65,6 +65,7 @@ export default function page(){
         }
         else{
        setFile_url(data.path)
+       console.log(data.path)
         }
       }
       if(vname){
@@ -100,17 +101,18 @@ export default function page(){
     .list()
 
     if(files){
+      const posts = []
     for (const file of files) {
     //   console.log(file)
-      const { data:posts } = await supabase.storage.from('files').createSignedUrl(file.name, 3600000)
-     if(posts){
-      // for(const post of posts){
-      // const dwn = await supabase.storage.from('files').download(file.name)
-        
+      const { data:post } = await supabase.storage.from('files').createSignedUrl(file.name, 3600000, {
+        transform: {
+          width: 200,
+          height: 200,},
+        })
+     if(post){
+        posts.push(post)
       const diwn = await supabase.from('category').select().eq('vname',file.name)
-      // }
-      // setDownload(URL.createObjectURL(dwn))
-      setDownload([posts])
+      setDownload(posts)
       setDfiles(diwn)
       console.log(posts)
       console.log(diwn)
@@ -175,7 +177,7 @@ export default function page(){
     </DialogContent>
     </Dialog></form></div>
     
-    <div className=' px-4 md:grid grid-clos-3 lg:grid lg:grid-cols-3 gap-3'>
+    <div className=' px-4 md:grid grid-cols-3 lg:grid lg:grid-cols-3 gap-3'>
     {downloads && (downloads).map((download:any)=>(<Downloads key={download.signedUrl} download={download}/>))}
     {/* {dfiles && dfiles.map((dfile:any)=>(<File key={dfile.id} dfile={dfile}/>))} */}
     {/* {Object.keys(downloads).map((value)=>{return(
