@@ -11,7 +11,7 @@ import { Select,SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectLa
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { supabase } from '@/app/libs/supabase'
-import Downloads from '@/components/download/downloaded'
+// import Downloads from '@/components/download/downloaded'
 
 export default function page(){
   const [vname,setVname] = useState('')
