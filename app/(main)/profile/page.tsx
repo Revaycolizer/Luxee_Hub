@@ -39,7 +39,6 @@ export default function profile(){
         const{data} = await supabase.from("profiles").select().eq('email',user.email)
         if(data){
            setProfile(data)
-          console.log(data)
         }
        
       }

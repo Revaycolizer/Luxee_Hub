@@ -22,7 +22,7 @@ export default function avatar(){
       <section className="flex flex-row justify-between gap-4 lg:gap-12">
     <section className="py-4 hidden sm:block">
     <Avatar>
-    <AvatarImage sizes="21" src="https://github.com/shadcn.png" />
+    <AvatarImage  src="https://github.com/shadcn.png" />
     <AvatarFallback>CN</AvatarFallback>
   </Avatar>
   

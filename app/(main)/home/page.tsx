@@ -11,6 +11,7 @@ import { Select,SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectLa
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { supabase } from '@/app/libs/supabase'
+import Downloads from '@/components/download/downloaded'
 
 export default function page(){
   const [vname,setVname] = useState('')
@@ -19,6 +20,7 @@ export default function page(){
   const [open,setOpen] =useState(false)
   const [file_url,setFile_url] = useState<any | null>(null)
   const [user,setUser] = useState<any | null>(null)
+  const [downloads,setDownload] =useState<any | null>(null)
   const router = useRouter()
 
   useEffect(()=>{
@@ -51,13 +53,16 @@ export default function page(){
 
   const handlePost =useCallback(async()=>{
     if(user){
-  
+     console.log(user)
     try{
       if(vfile){
-        const uploadfile = await supabase.storage.from('files').upload(vname,vfile, {
-          cacheControl: '3600',
-          upsert: false })
-       setFile_url(uploadfile)
+        const {data,error} = await supabase.storage.from('files').upload(vname,vfile,)
+        if(error){
+          toast.error('something went wrong')
+        }
+        else{
+       setFile_url(data.path)
+        }
       }
       if(vname){
         const data = await supabase.from('category').insert({
@@ -88,19 +93,25 @@ export default function page(){
   const fetchPosts=useCallback(async()=>{
   
 
-    const { data, error } = await supabase
+    const { data:files } = await supabase
     .storage
     .from('files')
     .list()
 
-    if(data){
-      
-    const error  = await supabase
-    .storage
-    .from('files')
-    .download(vname)
-
+    if(files){
+    for (const file of files) {
+    //   console.log(file)
+    //   const { data:posts } = await supabase.storage.from('files').createSignedUrl(file.name, 3600000)
+    //  if(posts){
+      // for(const post of posts){
+      const dwn = await supabase.storage.from('files').download(file.name)
+      // }
+      setDownload(dwn)
+      console.log(dwn)
+      // }
+     
     }
+  }
   
 
   },[])
@@ -159,9 +170,9 @@ export default function page(){
     </DialogContent>
     </Dialog></form></div>
     
-    <div className='grid grid-cols-3'>
-
-    </div>
+    {/* <div className='grid lg:grid-cols-3 gap-3'>
+    {downloads && downloads.map((download:any)=>(<Downloads key={download.id} download={download}/>))}
+    </div> */}
     
     </section>
     </>

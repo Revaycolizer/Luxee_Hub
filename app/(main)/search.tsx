@@ -21,7 +21,7 @@ export default function search(){
     const searchUser=useCallback(async()=>{
         if(search.length>=1){
      
-        const {data,error} = await supabase.from('profiles').select('name').eq('name',search)
+        const {data,error} = await supabase.from('profiles').select().textSearch('name',search)
         if(data){
         setCuser(data)
         }

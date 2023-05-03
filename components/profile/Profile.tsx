@@ -1,4 +1,5 @@
 import React from 'react'
+import { Card, CardContent } from '../ui/card';
 interface ProfileProps{
     name?:string;
     email?:string;
@@ -8,10 +9,14 @@ interface ProfileProps{
 
 const Profile = ({profile}: {profile: ProfileProps}) => {
   return (
-    <div className='justify-center items-center rounded-md shadow-md px-4 flex flex-col bg-teal-100'>
-        <p>Name:{profile.name}</p>
-        <p>Email:{profile.email}</p>
-        <p>Phone:{profile.phone}</p>
+    <div className='justify-center items-center rounded-md px-4 flex flex-col'>
+      <Card>
+        <CardContent className='py-4'>
+        <p className='md:text-3xl lg:text-4xl'>Name:{profile.name}</p>
+        <p className='md:text-3xl lg:text-4xl'>Email:{profile.email}</p>
+        <p className='md:text-3xl lg:text-4xl'>Phone:{profile.phone}</p>
+        </CardContent>
+        </Card>
     </div>
   )
 }

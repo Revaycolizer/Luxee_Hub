@@ -3,6 +3,7 @@
 // import Menu from "./menu"
 
 import Navbar from "@/components/NavBar/Navbar"
+import ClientOnly from "../../components/hydra/Hydra"
 
 
 
@@ -14,7 +15,8 @@ export default function RootLayout({children}
   return (
     <section>
         {/* <aside className="w-1/4 "><Menu/></aside> */}
-        <main><Navbar/>{children}</main>
+        <ClientOnly>
+        <main><Navbar/>{children}</main></ClientOnly>
     </section>
   )
 }
