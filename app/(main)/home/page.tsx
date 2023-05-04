@@ -103,7 +103,6 @@ export default function page(){
     if(files){
       const posts = []
     for (const file of files) {
-    //   console.log(file)
       const { data:post } = await supabase.storage.from('files').createSignedUrl(file.name, 3600000, {
         transform: {
           width: 200,
@@ -114,9 +113,6 @@ export default function page(){
       const diwn = await supabase.from('category').select().eq('vname',file.name)
       setDownload(posts)
       setDfiles(diwn)
-      console.log(posts)
-      console.log(diwn)
-      // }
     }
      
     }
@@ -176,13 +172,16 @@ export default function page(){
         <DialogTrigger>Cancel</DialogTrigger>
     </DialogContent>
     </Dialog></form></div>
-    
-    <div className=' px-4 md:grid grid-cols-3 lg:grid lg:grid-cols-3 gap-3'>
+    <section className='py-4'>
+    <div className='fill px-4 flex flex-col justify-between  gap-3 md:grid grid-cols-3 lg:grid lg:grid-cols-3 gap-3'>
+      
     {downloads && (downloads).map((download:any)=>(<Downloads key={download.signedUrl} download={download}/>))}
     {/* {dfiles && dfiles.map((dfile:any)=>(<File key={dfile.id} dfile={dfile}/>))} */}
     {/* {Object.keys(downloads).map((value)=>{return(
     <img src={`${downloads[value].signedUrl}`} alt={downloads[value].name}/>)})} */}
+    
     </div>
+    </section>
     
     </section>
     </>
