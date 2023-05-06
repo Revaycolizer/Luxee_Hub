@@ -93,14 +93,14 @@ export default function menu(){
             
             </section>
             </Link>
-            <Link href='/album'>
+            <Link href='/myposts'>
             <section className='flex items-start cursor-pointer hover:bg-hov active:bg-hov focus:outline-none focus:ring focus:ring-hov rounded-full pt-3 px-4'>
                 
             {/* <Image height={34} width={34} src={album} alt='play'>
             
             </Image> */}
             <h2 className='mb-4 text-xl font-medium text-black px-6'>
-                Album
+                My Posts
             </h2>
             
             </section>
@@ -142,6 +142,9 @@ export default function menu(){
             </Box>
             <Box onClick={onClose}>
                 <Link className='text-bra  md:text-2xl' href="profile">Profile</Link>
+            </Box>
+            <Box onClick={onClose}>
+            <Link className='text-bra  md:text-2xl ' href="myposts">My Posts</Link>
             </Box>
             <Box onClick={onClose}>
             <Link className='text-bra  md:text-2xl ' href="category">Category</Link>

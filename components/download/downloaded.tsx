@@ -1,5 +1,5 @@
 interface Props{
-signedUrl:any;
+publicUrl:any;
 }
 
 
@@ -13,7 +13,7 @@ import {IoMdShareAlt} from 'react-icons/io'
 const Downloads = ({download}:{download:Props}) => {
   return (
     
-    <Card className='rounded-lg'><section><img className='fill' src={`${download.signedUrl}`}/><div className='px-8 py-4 flex flex-row justify-between'><AiOutlineHeart size={24}/> <FaRegCommentDots size={24}/><IoMdShareAlt size={24}/></div></section></Card>
+    <Card className='rounded-lg'><section><img className='fill' src={`${download.publicUrl}`}/><div className='px-8 py-4 flex flex-row justify-between'><AiOutlineHeart size={24}/> <FaRegCommentDots size={24}/><IoMdShareAlt size={24}/></div></section></Card>
 
   )
 }

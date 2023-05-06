@@ -13,8 +13,8 @@ const SearchedUser = ({cuser}:{cuser:CuserProps}) => {
   return (
     <div>
         <Card>
-       <CardContent className='flex flex-row gap-4  py-4'>
-        <FaUserCircle size={20}/>
+       <CardContent className='flex flex-row gap-4  py-4 text-bra'>
+        <FaUserCircle color='blue' size={20}/>
         {cuser.name}
         
        </CardContent>
