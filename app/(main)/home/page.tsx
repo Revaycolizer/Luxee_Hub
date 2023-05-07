@@ -14,6 +14,8 @@ import { supabase } from '@/app/libs/supabase'
 import Downloads from '@/components/download/downloaded'
 import File from '@/components/download/file'
 import Image from 'next/image'
+import { CloudinaryImage } from '@cloudinary/url-gen'
+import { fill } from '@cloudinary/url-gen/actions/resize'
 
 export default function page(){
   const [vname,setVname] = useState('')
@@ -55,7 +57,6 @@ export default function page(){
 
   const handlePost =useCallback(async()=>{
     if(user){
-     console.log(user)
     try{
       if(vfile){
         const {data,error} = await supabase.storage.from('files').upload(vname,vfile,)
@@ -64,12 +65,9 @@ export default function page(){
         }
         else{
        setFile_url(data.path)
-       console.log(data.path)
         }
       }
-      if(vname){
-        console.log(user)
-        
+      if(vname){ 
         const data = await supabase.from('category').insert({
           vname:vname,
           selectedValue:selectedValue.category,
@@ -80,6 +78,7 @@ export default function page(){
          
           toast.success('Post uploaded successfully')
           setOpen(false)
+          location.reload()
           }
           else{
             toast.error('Unable to post')
@@ -102,11 +101,15 @@ export default function page(){
 
     if(files && files.length>0){
       const promises = files.map(async(file)=>{
-        const post = supabase.storage.from('files').getPublicUrl(file.name)
-        return post.data
-      })
-      const posts = await Promise.all(promises)
-      setDownload(posts)
+        const { data: { publicUrl } } = await supabase.storage
+          .from('files')
+          .getPublicUrl(file.name);
+        const myImage = new CloudinaryImage(publicUrl, {cloudName: 'dloouwccf'})
+          .resize(fill().width(100).height(40));
+        return myImage;
+      });
+      const posts = await Promise.all(promises);
+      setDownload(posts);
     }
   
   },[])
@@ -165,9 +168,9 @@ export default function page(){
     </DialogContent>
     </Dialog></form></div>
     <section className='py-4'>
-    <div className=' px-4 flex flex-col  justify-between  gap-3 md:grid grid-cols-5 lg:grid lg:grid-cols-6 md:gap-5 lg:gap-5'>
+    <div className=' px-6 flex flex-col  justify-between  gap-3 md:grid grid-cols-3 lg:grid lg:grid-cols-6 md:gap-5 lg:gap-5'>
       
-    {downloads && (downloads).map((download:any)=>(<Downloads key={download.publicUrl} download={download}/>))}
+    {downloads && (downloads).map((download:any)=>(<Downloads key={download.publicID} download={download}/>))}
     {/* {dfiles && dfiles.map((dfile:any)=>(<File key={dfile.id} dfile={dfile}/>))} */}
     {/* {Object.keys(downloads).map((value)=>{return(
     <img src={`${downloads[value].signedUrl}`} alt={downloads[value].name}/>)})} */}
