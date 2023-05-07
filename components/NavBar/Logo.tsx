@@ -7,8 +7,8 @@ const Logo = () => {
     <Image
     className='hidden lg:block'
     src={src}
-    width={40}
-    height={40}
+    width={44}
+    height={44}
     priority
     alt=''
     />

@@ -30,7 +30,15 @@ import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import { supabase } from '../libs/supabase'
 import {HiOutlineMenuAlt1} from 'react-icons/hi'
-
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu"
 
  
 
@@ -58,48 +66,61 @@ export default function menu(){
   return (
     <>
     <section className=' justify-between hidden lg:block'>
-        <div className='flex flex-row'>
+        <div className='flex flex-row text-center pt-10 '>
           <Link href='/home'>
-            <section className='flex items-start  bg-hov hover:bg-hov active:bg-hov focus:outline-none focus:ring focus:ring-hov rounded-full pt-3 px-4'>
+            <section className='flex items-start  bg-hov hover:bg-hov active:bg-hov focus:outline-none focus:ring focus:ring-hov rounded-full px-4'>
             {/* <Image height={34} width={34} src={home} alt='play'>
             
             </Image> */}
-            <h2 className='mb-4 text-xl font-medium text-black px-6'>
+            <h2 className='mb-4 text-xl font-medium text-black px-2'>
                 Home
             </h2>
             </section>
             </Link>
             <Link href='/profile'>
-            <section className='flex items-start cursor-pointer hover:bg-hov active:bg-hov focus:outline-none focus:ring focus:ring-hov rounded-full pt-3 px-4'>
+            <section className='flex items-start cursor-pointer hover:bg-hov active:bg-hov focus:outline-none focus:ring focus:ring-hov rounded-full px-4'>
                
             {/* <Image height={34} width={34} src={cat} alt='play'>
             
             </Image> */}
-            <h2 className='mb-4 text-xl font-medium text-black px-6'>
+            <h2 className='mb-4 text-xl font-medium text-black '>
                 Profile
             </h2>
             
             </section>
             </Link>
-            <Link href='/artist'>
-            <section className='flex items-start cursor-pointer hover:bg-hov active:bg-hov focus:outline-none focus:ring focus:ring-hov rounded-full pt-3 px-4'>
+           
+            <section className='flex items-start cursor-pointer hover:bg-hov active:bg-hov focus:outline-none focus:ring focus:ring-hov rounded-full  px-4'>
                
             {/* <Image  src={play} alt='play'>
             
             </Image> */}
-            <h2 className='mb-4 text-xl font-medium text-black px-7'>
-                Artist
+            <h2 className='mb-2 text-xl font-medium text-black pb-6'>
+            <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+        <NavigationMenuTrigger className='text-xl font-medium pb-6 text-black'>Category</NavigationMenuTrigger>
+        <NavigationMenuContent className='flex flex-col justify-between gap-2 px-4'>
+          <NavigationMenuLink className='text-sm'><Link href="/dance">Dance</Link></NavigationMenuLink>
+          <NavigationMenuLink className='text-sm'><Link href="/comedy">Comedy</Link></NavigationMenuLink>
+          <NavigationMenuLink className='text-sm'><Link href="/education">Education</Link></NavigationMenuLink>
+          <NavigationMenuLink className='text-sm'><Link href="/singing">Singing</Link></NavigationMenuLink>
+        </NavigationMenuContent>
+        </NavigationMenuItem>
+        </NavigationMenuList>
+        </NavigationMenu>
+          
             </h2>
             
             </section>
-            </Link>
+           
             <Link href='/myposts'>
-            <section className='flex items-start cursor-pointer hover:bg-hov active:bg-hov focus:outline-none focus:ring focus:ring-hov rounded-full pt-3 px-4'>
+            <section className='flex items-start cursor-pointer hover:bg-hov active:bg-hov focus:outline-none focus:ring focus:ring-hov rounded-full  px-4'>
                 
             {/* <Image height={34} width={34} src={album} alt='play'>
             
             </Image> */}
-            <h2 className='mb-4 text-xl font-medium text-black px-6'>
+            <h2 className='mb-3 text-xl font-medium text-black'>
                 My Posts
             </h2>
             
@@ -147,7 +168,16 @@ export default function menu(){
             <Link className='text-bra  md:text-2xl ' href="myposts">My Posts</Link>
             </Box>
             <Box onClick={onClose}>
-            <Link className='text-bra  md:text-2xl ' href="category">Category</Link>
+            <Link className='text-bra  md:text-2xl ' href="dance">Dance</Link>
+            </Box>
+            <Box onClick={onClose}>
+            <Link className='text-bra  md:text-2xl ' href="comedy">Comedy</Link>
+            </Box>
+            <Box onClick={onClose}>
+            <Link className='text-bra  md:text-2xl ' href="singing">Singing</Link>
+            </Box>
+            <Box onClick={onClose}>
+            <Link className='text-bra  md:text-2xl ' href="education">Education</Link>
             </Box>
             <Box onClick={handleLog}>
             <Link className='text-bra  md:text-2xl ' href="/">Logout</Link>
