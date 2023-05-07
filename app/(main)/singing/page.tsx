@@ -4,6 +4,7 @@ import { supabase } from '@/app/libs/supabase'
 import Downloads from '@/components/download/downloaded'
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
+import Search from '../search'
 
 const page = () => {
   const [downloads,setDownload] =useState<any | null>(null)
@@ -38,6 +39,10 @@ const page = () => {
       }
     }
   return (
+    <>
+    <aside className='md:py-5'>
+    <Search/>
+    </aside>
     <div><section className='py-4'>
     <div className='fill px-4 flex flex-col justify-between  gap-3 md:grid grid-cols-3 lg:grid lg:grid-cols-3 gap-3'>
       
@@ -48,6 +53,7 @@ const page = () => {
     
     </div>
     </section></div>
+    </>
   )
 }
 

@@ -43,10 +43,10 @@ export default function Home() {
   return (
    
     
-    <main className='py-24 lg:py-40 flex justify-center items-center'>
+    <main className='pt-24 md:pt-56 lg:py-40 flex justify-center items-center'>
     
       <form className=' grid grid-cols-1 gap-3 py-10' onSubmit={handleSubmit}>
-      <Image src={src} className="px-4"  priority alt='logo'/>
+      <Image src={src} className="px-4"  priority={true} alt='logo'/>
         <Label>Email:</Label>
         <Input type="email" placeholder="Email" name="email" value={email}
          onChange={(e)=>setEmail(e.target.value)}
