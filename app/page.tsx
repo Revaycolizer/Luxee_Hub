@@ -43,7 +43,7 @@ export default function Home() {
   return (
    
     
-    <main className='pt-24 md:pt-56 lg:py-40 flex justify-center items-center'>
+    <main className='pt-20 md:pt-56 lg:py-40 flex justify-center items-center'>
     
       <form className=' grid grid-cols-1 gap-3 py-10' onSubmit={handleSubmit}>
       <Image src={src} className="px-4"  priority={true} alt='logo'/>
