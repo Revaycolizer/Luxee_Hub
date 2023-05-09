@@ -14,7 +14,6 @@ export default function RootLayout({children}
       }){
   return (
     <section>
-        {/* <aside className="w-1/4 "><Menu/></aside> */}
         <ClientOnly>
         <main><Navbar/>{children}</main></ClientOnly>
     </section>

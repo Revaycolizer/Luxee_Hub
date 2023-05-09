@@ -97,11 +97,9 @@ export default function page(){
         }
         else{
        setFile_url(data.path)
-       console.log(data.path)
         }
        }
        if(vname){
-        // setCategory(selectedValue.category)
         const data = await supabase.from('category').insert({
           vname:vname,
           selectedValue:selectedValue.category,

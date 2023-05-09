@@ -16,6 +16,9 @@ import File from '@/components/download/file'
 import Image from 'next/image'
 import { CloudinaryImage } from '@cloudinary/url-gen'
 import { fill } from '@cloudinary/url-gen/actions/resize'
+import tus from 'tus-js-client'
+import { Progress } from '@/components/ui/progress'
+
 
 export default function page(){
   const [vname,setVname] = useState('')
@@ -27,6 +30,7 @@ export default function page(){
   const [downloads,setDownload] =useState<any | null>(null)
   const [dfiles,setDfiles] = useState<any | null>(null)
   const router = useRouter()
+  const [progress,setProgess] = useState(0)
 
   useEffect(()=>{
    User()
@@ -53,8 +57,67 @@ export default function page(){
   }
 
   const category = React.useRef<HTMLSelectElement>(null)
- 
 
+  
+
+  // const handlePost = useCallback(async () => {
+  //   if (user) {
+  //     try {
+  //       if (vfile) {
+  //         const upload = new tus.Upload(vfile, {
+  //           endpoint: `https://${projectId}.supabase.co/storage/v1/upload/resumable`,
+  //           retryDelays: [0, 3000, 5000, 10000, 20000],
+  //           headers: {
+  //             authorization: `Bearer ${token}`,
+  //             'x-upsert': 'true', // optionally set upsert to true to overwrite existing files
+  //           },
+  //           uploadDataDuringCreation: true,
+  //           metadata: {
+  //             bucketName: 'files',
+  //             objectName: vname,
+  //             contentType: 'image/png',
+  //             cacheControl: 3600,
+  //           },
+  //           chunkSize: 6 * 1024 * 1024, // NOTE: it must be set to 6MB (for now) do not change it
+  //           onError: function (error) {
+  //             console.log('Failed because: ' + error)
+  //             toast.error('something went wrong')
+  //           },
+  //           onProgress: function (bytesUploaded, bytesTotal) {
+  //             var percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(2)
+  //             console.log(bytesUploaded, bytesTotal, percentage + '%')
+  //           },
+  //           onSuccess: function () {
+  //             setFile_url(upload.url)
+  //           },
+  //         })
+  
+  //         upload.start()
+  //       }
+  
+  //       if (vname) {
+  //         const data = await supabase.from('category').insert({
+  //           vname: vname,
+  //           selectedValue: selectedValue.category,
+  //           user: user,
+  //         })
+  
+  //         if (data && vname && vfile) {
+  //           toast.success('Post uploaded successfully')
+  //           setOpen(false)
+  //           location.reload()
+  //         } else {
+  //           toast.error('Unable to post')
+  //         }
+  //       }
+  //     } catch (error) {
+  //       toast.error('Something went wrong')
+  //     }
+  //   } else {
+  //     toast.error('You need to sign in')
+  //   }
+  // }, [vname, vfile, selectedValue, user])
+ 
   const handlePost =useCallback(async()=>{
     if(user){
     try{
@@ -65,6 +128,7 @@ export default function page(){
         }
         else{
        setFile_url(data.path)
+       setProgess(10)
         }
       }
       if(vname){ 
@@ -75,10 +139,12 @@ export default function page(){
         })
         
         if(data && vname && vfile){
-         
+          setProgess(100)
+          setTimeout(()=>{
           toast.success('Post uploaded successfully')
           setOpen(false)
           location.reload()
+        },100)
           }
           else{
             toast.error('Unable to post')
@@ -101,15 +167,16 @@ export default function page(){
 
     if(files && files.length>0){
       const promises = files.map(async(file)=>{
-        const { data: { publicUrl } } = await supabase.storage
+        const { data: { publicUrl } } = supabase.storage
           .from('files')
           .getPublicUrl(file.name);
         const myImage = new CloudinaryImage(publicUrl, {cloudName: 'dloouwccf'})
-          .resize(fill().width(100).height(40));
+          .resize(fill().width(100).height(200));
         return myImage;
       });
       const posts = await Promise.all(promises);
       setDownload(posts);
+      console.log(posts)
     }
   
   },[])
@@ -161,7 +228,12 @@ export default function page(){
 
     </select>
     </DialogDescription>
+    
+    <Progress value={progress}/>
+    
     <DialogFooter>
+    <div id="progress-bar-container"></div>
+    
      <Button className='w-60 md:w-72 lg:w-72' type="submit" onClick={handlePost}>Post</Button>
         </DialogFooter>
         <DialogTrigger className='text-bra bg-rose-50 h-10 w-60 md:w-72 lg:w-72 text-center rounded-md'>Cancel</DialogTrigger>
