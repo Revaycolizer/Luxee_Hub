@@ -28,12 +28,16 @@ export default function search(){
         else if(error){
             toast.error('Check your internet Connection')
         }
-        else if(search !== data){
-            toast.error('user not found')
+        else if(data == null){
+            toast.error('User not found')
         }
         else{
             toast.error('User not found')
+            setCuser(null)
         }
+        // else{
+        //     toast.error('User not found')
+        // }
     }
     else{
         toast.error('Cannot search null value')
