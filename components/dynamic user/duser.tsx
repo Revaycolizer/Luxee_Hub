@@ -9,10 +9,11 @@ import React from 'react'
 
 const Duser = ({user}:{user:User}) => {
   return (
-    <div>
-        <p>{user.name}</p>
-        <p>{user.email}</p>
-        <p>{user.phone}</p>
+    <div className='py-2'>
+      <p>User Details</p>
+        <p>Name: {user.name}</p>
+        <p>Email: {user.email}</p>
+        <p>Phone: {user.phone}</p>
     </div>
   )
 }
