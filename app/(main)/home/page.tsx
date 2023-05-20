@@ -161,18 +161,17 @@ export default function page(){
 
   const fetchPosts=useCallback(async()=>{
     const { data:files } = await supabase
-    .storage
-    .from('files')
-    .list()
+    .from('category')
+            .select()
 
     if(files && files.length>0){
       const promises = files.map(async(file)=>{
         const { data: { publicUrl } } = supabase.storage
           .from('files')
-          .getPublicUrl(file.name);
+          .getPublicUrl(file.vname);
         const myImage = new CloudinaryImage(publicUrl, {cloudName: 'dloouwccf'})
           .resize(fill().width(100).height(200));
-          console.log(file.id)
+         
         return {id:file.id, myImage:myImage};
       });
       const posts = await Promise.all(promises);

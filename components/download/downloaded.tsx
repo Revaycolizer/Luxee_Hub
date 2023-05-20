@@ -29,7 +29,6 @@ const Downloads = ({download}:{download:Props}) => {
         if (error) {
           console.error(error)
         } else {
-          // Subscribe to changes in the likes table for this post
           supabase
             .from('likes')
             .select('user_id')
@@ -39,7 +38,6 @@ const Downloads = ({download}:{download:Props}) => {
               if (error) {
                 console.error(error)
               } else {
-                // If a new row is inserted into the likes table for this post, increment the number of likes
                 setLikes(data.length)
                 const { data: {user} } = await supabase.auth.getUser()
                 if (user) {
@@ -54,7 +52,6 @@ const Downloads = ({download}:{download:Props}) => {
   }, [download.id])
 
   const handleLike = async () => {
-    // Insert a new row into the likes table with the user ID and post ID
     const {data:{user}} = await supabase.auth.getUser()
     if(user){
     const { error } = await supabase
@@ -66,17 +63,15 @@ const Downloads = ({download}:{download:Props}) => {
     if (error) {
       console.error(error)
     } else {
-      // Increment the number of likes for this post
       setLiked(true)
       setLikes(likes => likes + 1)
-      // setPosts(posts.map(p => p.id === post.id ? { ...p, likes: p.likes + 1 } : p))
     }
   }
 
   }
 
   const handleRemoveLike = async () => {
-    // Insert a new row into the likes table with the user ID and post ID
+   
     const {data:{user}} = await supabase.auth.getUser()
     if(user){
     const { error } = await supabase
@@ -89,10 +84,10 @@ const Downloads = ({download}:{download:Props}) => {
     if (error) {
       console.error(error)
     } else {
-      // Increment the number of likes for this post
+     
       setLiked(false)
       setLikes(likes => likes - 1)
-      // setPosts(posts.map(p => p.id === post.id ? { ...p, likes: p.likes + 1 } : p))
+      
     }
   }
 

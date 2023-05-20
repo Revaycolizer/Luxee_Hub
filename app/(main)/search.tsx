@@ -73,12 +73,14 @@ export default function search(){
     <BiSearch size={23}/>
     </div>
     </div>
-    
+    <DialogTrigger>
     <DialogDescription>
+        
         <div className="justify-center items-center flex"> {cusers && cusers.map((cuser:any)=>
                 (<SearchedUser key={cuser.id} cuser={cuser}/>
                 ))}</div>
     </DialogDescription>
+    </DialogTrigger>
     </DialogContent>
     </Dialog>
         </section>

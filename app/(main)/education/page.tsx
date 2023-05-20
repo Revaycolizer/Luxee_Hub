@@ -30,7 +30,7 @@ const page = () => {
                 .getPublicUrl(file.vname)
                 const myImage = new CloudinaryImage(publicUrl, {cloudName: 'dloouwccf'})
                 .resize(fill().width(100).height(150));
-              return myImage;
+                return {id:file.id, myImage:myImage};
             })
             const posts = await Promise.all(promises)
             // console.log(posts)
