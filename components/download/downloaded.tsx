@@ -2,7 +2,8 @@ interface Props{
 myImage:any;
 id: number;
     likes:number;
-    publicID:any
+    publicID:any;
+    comments:number;
 }
 
 
@@ -13,11 +14,18 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { FaRegCommentDots } from 'react-icons/fa';
 import {IoMdShareAlt} from 'react-icons/io'
 import { supabase } from '@/app/libs/supabase';
+import { Dialog, DialogDescription, DialogTrigger,DialogTitle,DialogContent,DialogFooter } from '../ui/dialog';
+import { Input } from '@/components/input'
+import { Button } from '@/components/ui/button'
+import { toast } from 'react-hot-toast';
 
 
 const Downloads = ({download}:{download:Props}) => {
   const [liked, setLiked] = useState(false)
   const [likes, setLikes] = useState(download.likes)
+  const [comment, setComment] = useState('')
+  const [open,setOpen] =useState(false)
+  const [comments, setComments] = useState(download.comments)
 
   useEffect(() => {
     supabase
@@ -48,7 +56,8 @@ const Downloads = ({download}:{download:Props}) => {
             })
             
         }
-      })
+      }),
+      fetchComments()
   }, [download.id])
 
   const handleLike = async () => {
@@ -69,6 +78,45 @@ const Downloads = ({download}:{download:Props}) => {
   }
 
   }
+
+  const fetchComments=async()=>{
+    const {data:{user}} = await supabase.auth.getUser()
+    if(user){
+    const { data,error } = await supabase
+     .from('comments')
+     .select()
+     .eq('user_id', user.id)  
+     .eq('post_id', download.id)
+     if(error){
+      toast.error('Something went wrong')
+     }
+     else{
+         setComments(data.length)
+     }
+  }
+}
+
+  const handleComment=async()=>{
+    if(comment.length>0){
+    const {data:{user}} = await supabase.auth.getUser()
+    if(user){
+    const { error } = await supabase
+     .from('comments')
+     .insert(
+        { user_id: user.id, post_id: download.id, comment:comment }
+        )
+        if(error){
+          toast.error('Something went wrong')
+        }
+        else{
+          setComment('')
+          toast.success('Comment added successfully')
+          setOpen(false)
+          setComments(comments => comments + 1)
+        }
+  }
+}
+}
 
   const handleRemoveLike = async () => {
    
@@ -100,7 +148,16 @@ const Downloads = ({download}:{download:Props}) => {
             ) : (
               <AiOutlineHeart size={24} onClick={handleLike} />
             )}{likes}
-     <FaRegCommentDots size={24}/><IoMdShareAlt size={24}/></div></section></Card>
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger>
+     <FaRegCommentDots size={24} onClick={handleComment}/></DialogTrigger> <DialogContent className='justify-center items-center flex flex-col'><DialogTitle>Add a comment</DialogTitle>
+      <DialogDescription>
+      <Input type='text' required placeholder='File Name' value={comment}  onChange={(e)=>setComment(e.target.value)}/>
+      </DialogDescription><DialogFooter>
+    
+     <Button className='w-60 md:w-72 lg:w-72' type="submit" onClick={handleComment}>Post</Button>
+        </DialogFooter>
+        <DialogTrigger className='text-bra bg-rose-50 h-10 w-60 md:w-72 lg:w-72 text-center rounded-md'>Cancel</DialogTrigger></DialogContent></Dialog>{comments}<IoMdShareAlt size={24}/></div></section></Card>
  </div>
   )
 }
