@@ -172,11 +172,13 @@ export default function page(){
           .getPublicUrl(file.name);
         const myImage = new CloudinaryImage(publicUrl, {cloudName: 'dloouwccf'})
           .resize(fill().width(100).height(200));
-        return myImage;
+          console.log(file.id)
+        return {id:file.id, myImage:myImage};
       });
       const posts = await Promise.all(promises);
       setDownload(posts);
       console.log(posts)
+      
     }
   
   },[])
@@ -242,7 +244,7 @@ export default function page(){
     <section className='py-4'>
     <div className=' px-6 flex flex-col  justify-between  gap-3 md:grid grid-cols-3 lg:grid lg:grid-cols-6 md:gap-5 lg:gap-5'>
       
-    {downloads && (downloads).map((download:any)=>(<Downloads key={download.publicID} download={download}/>))}
+    {downloads && (downloads).map((download:any)=>(<Downloads key={download.id} download={download}/>))}
     {/* {dfiles && dfiles.map((dfile:any)=>(<File key={dfile.id} dfile={dfile}/>))} */}
     {/* {Object.keys(downloads).map((value)=>{return(
     <img src={`${downloads[value].signedUrl}`} alt={downloads[value].name}/>)})} */}

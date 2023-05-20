@@ -50,10 +50,17 @@ function User() {
             const {data:{publicUrl}} = supabase.storage.from('files').getPublicUrl(file.vname)
             const myImage = new CloudinaryImage(publicUrl, {cloudName: 'dloouwccf'})
             .resize(fill().width(100).height(150));
-          return myImage;
+
+            const { count: likes } = await supabase
+        .from('likes')
+        .select('user_id', { count: 'exact' })
+        .eq('post_id', file.id)
+        .single()
+          return {myImage,likes};
         })
         const posts = await Promise.all(promises)
         setPosts(posts);
+        
     }
 }
     if (id) {
@@ -74,7 +81,7 @@ function User() {
   return (
     <div>
      
-     <aside className='md:py-5'>
+     <aside className='md:py-5 '>
     <Search/>
     </aside>
     <div className='px-4'>
