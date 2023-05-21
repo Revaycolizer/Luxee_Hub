@@ -11,6 +11,7 @@ import Duser from '@/components/dynamic user/duser';
 import { CloudinaryImage } from '@cloudinary/url-gen';
 import { fill } from '@cloudinary/url-gen/actions/resize';
 import Posts from '@/components/download/Posts';
+import {SlUserFollowing,SlUserFollow} from 'react-icons/sl'
 
 
 interface User {
@@ -24,6 +25,8 @@ function User() {
   const id = searchParams?.id
   const [users, setUser] = useState<any | null>(null);
   const [posts, setPosts] = useState<any | null>(null);
+  const [followed, setFollowed] = useState(false);
+  const [follows, setFollows] = useState(0);
 
   useEffect(() => {
     async function fetchUser() {
@@ -47,25 +50,43 @@ function User() {
    
       if (files) {
         const promises = files.map(async(file)=>{
-            const {data:{publicUrl}} = supabase.storage.from('files').getPublicUrl(file.vname)
-            const myImage = new CloudinaryImage(publicUrl, {cloudName: 'dloouwccf'})
-            .resize(fill().width(100).height(150));
-
-            const { count: likes } = await supabase
-        .from('likes')
-        .select('user_id', { count: 'exact' })
-        .eq('post_id', file.id)
-        .single()
-          return {myImage,likes};
+          const { data: { publicUrl } } = supabase.storage
+            .from('files')
+            .getPublicUrl(file.vname);
+          const myImage = new CloudinaryImage(publicUrl, {cloudName: 'dloouwccf'})
+            .resize(fill().width(100).height(200));
+           
+          return {id:file.id, myImage:myImage};
         })
         const posts = await Promise.all(promises)
         setPosts(posts);
         
     }
 }
+
+async function fetchFollow() {
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (user) {
+    const { data, error } = await supabase
+      .from('follows')
+      .select('user_id')
+      .eq('follow_id', id);
+
+    if (error) {
+      console.error(error);
+    } else {
+      setFollows(data.length);
+      const hasFollowed = data.some(like => like.user_id === user.id);
+      setFollowed(hasFollowed);
+    }
+  }
+}
+
     if (id) {
       fetchUser();
       fetchPosts();
+      fetchFollow();
     }
   }, [id]);
 
@@ -73,7 +94,39 @@ function User() {
     toast.error('No user with that id')
   }
 
-//  
+
+  const handleFollow = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const { error } = await supabase
+        .from('follows')
+        .insert({ user_id: user.id, follow_id: id });
+      if (error) {
+        console.error(error);
+      } else {
+        setFollowed(true);
+        setFollows(follows => follows + 1);
+      }
+    }
+  };
+
+  const handleUnfollow = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const { error } = await supabase
+        .from('follows')
+        .delete()
+        .eq('user_id', user.id)
+        .eq('follow_id', id);
+      if (error) {
+        console.error(error);
+      } else {
+        setFollowed(false);
+        setFollows(follows => follows - 1);
+      }
+    }
+  };
+ 
 
   
  
@@ -84,9 +137,25 @@ function User() {
      <aside className='md:py-5 '>
     <Search/>
     </aside>
-    <div className='px-4'>
+    <div className='px-4 flex items-center justify-center'>
      {users && users.map((user:any)=>(<Duser key={user.id} user={user}/>))}
      </div>
+     <div className='flex items-center justify-center'>
+     <div className='flex flex-col justify-between gap-2'>
+        {followed ? (
+          <div className='flex flex-row justify-between gap-2 bg-rose-300 px-4 py-2 rounded-md' onClick={handleUnfollow}>
+          <SlUserFollowing onClick={handleUnfollow} size={24}>Unfollow</SlUserFollowing>
+          <p>Unfollow</p>
+          </div>
+        ) : (
+          <div className='flex flex-row justify-between gap-2 bg-rose-600 px-4 py-2 rounded-md' onClick={handleFollow}>
+          <SlUserFollow onClick={handleFollow} size={24}>Follow</SlUserFollow>
+          <p>Follow</p>
+          </div>
+        )}
+        <p>Followers: {follows}</p>
+      </div>
+      </div>
      <p className='px-4 py-6'>Posts</p>
      <div className='fill px-4 flex flex-col justify-between  gap-3 md:grid grid-cols-5 lg:grid lg:grid-cols-6 md:gap-5 lg:gap-5'>
   {posts && posts.map((post:any)=>(<Posts key={post.id} post={post}/>))}
