@@ -18,6 +18,8 @@ import { Dialog, DialogDescription, DialogTrigger,DialogTitle,DialogContent,Dial
 import { Input } from '@/components/input'
 import { Button } from '@/components/ui/button'
 import { toast } from 'react-hot-toast';
+import DisplayUser from '../dynamic user/DisplayUser';
+import DisplayComment from '../dynamic user/DisplayComment';
 
 
 const Downloads = ({download}:{download:Props}) => {
@@ -26,6 +28,8 @@ const Downloads = ({download}:{download:Props}) => {
   const [comment, setComment] = useState('')
   const [open,setOpen] =useState(false)
   const [comments, setComments] = useState(download.comments)
+  const [displaycomments,setDisplaycomments] = useState<any|null>(null)
+  const [displayusers,setDisplayusers] = useState<any|null>(null)
 
   useEffect(() => {
     supabase
@@ -80,19 +84,44 @@ const Downloads = ({download}:{download:Props}) => {
   }
 
   const fetchComments=async()=>{
-    const {data:{user}} = await supabase.auth.getUser()
-    if(user){
+   
     const { data,error } = await supabase
      .from('comments')
-     .select()
-     .eq('user_id', user.id)  
+     .select() 
      .eq('post_id', download.id)
      if(error){
       toast.error('Something went wrong')
      }
      else{
          setComments(data.length)
-     }
+         setDisplaycomments(data)
+        if(data){
+          const {data:{user}} = await supabase.auth.getUser()
+          if(user){
+          const useri = await supabase.from('profiles').select('name').eq('id',user.id)
+          // setDisplaycomments(data)
+          setDisplayusers(useri.data)
+          console.log(useri)
+          }
+
+        }
+     
+  }
+}
+
+const handleShare = async()=>{
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: 'Check out this post!',
+        text: 'I found this post and thought you might like it.',
+        url: `https://luxee-hub.vercel.app/posts/${download.id}`
+      })
+    } catch (error) {
+      toast.error('Something went wrong')
+    }
+  } else {
+    toast.error('Web Share not supported')
   }
 }
 
@@ -113,6 +142,7 @@ const Downloads = ({download}:{download:Props}) => {
           toast.success('Comment added successfully')
           setOpen(false)
           setComments(comments => comments + 1)
+          location.reload()
         }
   }
 }
@@ -152,12 +182,21 @@ const Downloads = ({download}:{download:Props}) => {
               <DialogTrigger>
      <FaRegCommentDots size={24} onClick={handleComment}/></DialogTrigger> <DialogContent className='justify-center items-center flex flex-col'><DialogTitle>Add a comment</DialogTitle>
       <DialogDescription>
-      <Input type='text' required placeholder='File Name' value={comment}  onChange={(e)=>setComment(e.target.value)}/>
-      </DialogDescription><DialogFooter>
+      <Input type='text' required placeholder='Comment' value={comment}  onChange={(e)=>setComment(e.target.value)}/>
+      </DialogDescription>
+      <DialogDescription>
+      <p className='text-pink-600 text-center'>Comments</p>
+        <div className='flex items-center justify-center'>
+       
+      <div className='flex flex-row gap-2 justify-between'>
+        <p className='text-blue-600'>{displayusers&& (displayusers).map((displayuser:any)=>(<DisplayUser key={displayuser.name} displayuser={displayuser}/>))}</p>
+        <p className='text-rose-600'>{displaycomments&& (displaycomments).map((displaycomment:any)=>(<DisplayComment key={displaycomment.id} displaycomment={displaycomment}/>))}</p>
+        {/* <p className='text-bra'>{displaycomments}</p> */}
+        </div></div></DialogDescription><DialogFooter>
     
      <Button className='w-60 md:w-72 lg:w-72' type="submit" onClick={handleComment}>Post</Button>
         </DialogFooter>
-        <DialogTrigger className='text-bra bg-rose-50 h-10 w-60 md:w-72 lg:w-72 text-center rounded-md'>Cancel</DialogTrigger></DialogContent></Dialog>{comments}<IoMdShareAlt size={24}/></div></section></Card>
+        <DialogTrigger className='text-bra bg-rose-50 h-10 w-60 md:w-72 lg:w-72 text-center rounded-md'>Cancel</DialogTrigger></DialogContent></Dialog>{comments}<IoMdShareAlt size={24} onClick={handleShare}/></div></section></Card>
  </div>
   )
 }
