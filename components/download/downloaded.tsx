@@ -20,6 +20,7 @@ import { Button } from '@/components/ui/button'
 import { toast } from 'react-hot-toast';
 import DisplayUser from '../dynamic user/DisplayUser';
 import DisplayComment from '../dynamic user/DisplayComment';
+import { RWebShare } from 'react-web-share';
 
 
 const Downloads = ({download}:{download:Props}) => {
@@ -30,6 +31,8 @@ const Downloads = ({download}:{download:Props}) => {
   const [comments, setComments] = useState(download.comments)
   const [displaycomments,setDisplaycomments] = useState<any|null>(null)
   const [displayusers,setDisplayusers] = useState<any|null>(null)
+
+  
 
   useEffect(() => {
     supabase
@@ -121,7 +124,20 @@ const handleShare = async()=>{
       toast.error('Something went wrong')
     }
   } else {
-    toast.error('Web Share not supported')
+    return (
+      <RWebShare
+      data={{
+        title:"Check out this post!",
+        text:"I found this post and thought you might like it.",
+        url:`https://luxee-hub.vercel.app/posts/${download.id}`,
+      }}
+      onClick={()=>toast.success('Shared successfully')}
+      >
+        <Button>
+        Share
+        </Button>
+      </RWebShare>
+    );
   }
 }
 
