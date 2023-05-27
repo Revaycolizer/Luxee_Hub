@@ -74,7 +74,7 @@ function Post() {
     </aside>
     
      <p className='px-4 py-6'>Posts</p>
-     <div className='fill px-4 flex flex-col justify-between  gap-3 md:grid grid-cols-5 lg:grid lg:grid-cols-6 md:gap-5 lg:gap-5'>
+     <div className='fill px-4 flex flex-col justify-between  gap-3 md:grid grid-cols-2 lg:grid lg:grid-cols-4 md:gap-5 lg:gap-5'>
   {posts && posts.map((post:any)=>(<Posts key={post.id} post={post}/>))}
         </div>
     

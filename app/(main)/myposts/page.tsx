@@ -186,7 +186,7 @@ export default function page(){
     </Dialog></form></div>
     
     <section className='py-4'>
-    <div className='fill px-4 flex flex-col justify-between  gap-3 md:grid grid-cols-5 lg:grid lg:grid-cols-6 md:gap-5 lg:gap-5'>
+    <div className='fill px-4 flex flex-col justify-between  gap-3 md:grid grid-cols-2 lg:grid lg:grid-cols-4 md:gap-5 lg:gap-5'>
       
     {downloads && (downloads).map((download:any)=>(<Downloads key={download.id} download={download}/>))}
     {/* {dfiles && dfiles.map((dfile:any)=>(<File key={dfile.id} dfile={dfile}/>))} */}
