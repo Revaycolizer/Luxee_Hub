@@ -20,7 +20,7 @@ interface Props{
   import { toast } from 'react-hot-toast';
   import DisplayUser from '../dynamic user/DisplayUser';
   import DisplayComment from '../dynamic user/DisplayComment';
-  
+  import Image from 'next/image';
   
   const Posts = ({post}:{post:Props}) => {
     const [liked, setLiked] = useState(false)
@@ -172,7 +172,7 @@ interface Props{
     }
     return (
       <div>
-      <Card className='rounded-lg'><section><div><img className='fill' src={`${post.myImage.publicID}`}height={200}/></div><div className='px-8 py-4 flex flex-row justify-between'>
+      <Card className='rounded-lg'><section><div><Image style={{ height:300,width:400}} width={500} height={200} priority={true} sizes="100vw" src={`${post.myImage.publicID}`} alt=''/></div><div className='px-8 py-4 flex flex-row justify-between'>
       {liked ? (
                 <AiFillHeart size={24} onClick={handleRemoveLike} />
               ) : (

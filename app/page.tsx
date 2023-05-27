@@ -18,6 +18,7 @@ export default function Home() {
   const router = useRouter()
   const [email,setEmail]=useState('')
   const [password,setPassword] =useState('')
+  // const [formError,setFormError] =useState('')
   
 
   const handleSubmit = useCallback(async(e:React.FormEvent)=>{
@@ -37,6 +38,8 @@ export default function Home() {
 
   }catch(error){
     toast.error('Invalid credentials')
+    
+    // setFormError('Forget Password')
   }
 
 },[email,password])
@@ -60,6 +63,7 @@ export default function Home() {
         <Button variant="default" type="submit" >Login</Button>
         <div className='flex flex-row text-center justify-center items-center'>
           <Link href='/register'>Create an Account</Link>
+          {/* {formError && <div className='text-center'>{formError} <Link href=''>Forget Password</Link></div>} */}
         </div>        
       </form>
     </main>

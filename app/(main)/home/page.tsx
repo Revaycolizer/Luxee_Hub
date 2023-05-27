@@ -58,6 +58,8 @@ export default function page(){
 
   const category = React.useRef<HTMLSelectElement>(null)
 
+
+  
   
 
   // const handlePost = useCallback(async () => {
@@ -169,9 +171,11 @@ export default function page(){
         const { data: { publicUrl } } = supabase.storage
           .from('files')
           .getPublicUrl(file.vname);
+          
         const myImage = new CloudinaryImage(publicUrl, {cloudName: 'dloouwccf'})
           .resize(fill().width(100).height(200));
-         
+          console.log(myImage)
+        
         return {id:file.id, myImage:myImage};
       });
       const posts = await Promise.all(promises);
@@ -244,6 +248,7 @@ export default function page(){
     <div className=' px-6 flex flex-col  justify-between  gap-3 md:grid grid-cols-3 lg:grid lg:grid-cols-6 md:gap-5 lg:gap-5'>
       
     {downloads && (downloads).map((download:any)=>(<Downloads key={download.id} download={download}/>))}
+    
     {/* {dfiles && dfiles.map((dfile:any)=>(<File key={dfile.id} dfile={dfile}/>))} */}
     {/* {Object.keys(downloads).map((value)=>{return(
     <img src={`${downloads[value].signedUrl}`} alt={downloads[value].name}/>)})} */}
