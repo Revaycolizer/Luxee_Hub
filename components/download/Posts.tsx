@@ -172,7 +172,7 @@ interface Props{
     }
     return (
       <div>
-      <Card className='rounded-lg'><section><div><Image style={{ height:300,width:400}} width={500} height={200} priority={true} sizes="100vw" src={`${post.myImage.publicID}`} alt=''/></div><div className='px-8 py-4 flex flex-row justify-between'>
+      <Card className='rounded-lg'><section><div><Image style={{ height:400,width:400}} width={500} height={200} priority={true} sizes="100vw" src={`${post.myImage.publicID}`} alt=''/></div><div className='px-8 py-4 flex flex-row justify-between'>
       {liked ? (
                 <AiFillHeart size={24} onClick={handleRemoveLike} />
               ) : (
