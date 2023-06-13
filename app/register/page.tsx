@@ -11,8 +11,8 @@ import {useRouter} from 'next/navigation'
 import { useCallback, useState } from 'react'
 import src from '@/app/icons/lx.png'
 import Link from 'next/link'
-import axios from 'axios'
-import { supabase } from '../libs/supabase'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { Database } from '@/types_db'
 
 export default function Register(){
     const router = useRouter()
@@ -21,7 +21,7 @@ export default function Register(){
     const [password,setPassword] =useState('')
     const [confirmpassword,setConfirmPassword] =useState('')
     const [phone,setPhone] = useState('')
-   
+   const supabase = createClientComponentClient<Database>()
   
     const handleSubmit =useCallback(async(e:React.FormEvent)=>{  
         e.preventDefault()
