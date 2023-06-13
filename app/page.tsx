@@ -13,14 +13,17 @@ import { useCallback, useState } from 'react'
 import src from '../app/icons/lx.png'
 import Link from 'next/link'
 import { supabase } from './libs/supabase'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { Database } from '@/types_db'
 
 export default function Home() {
   const router = useRouter()
   const [email,setEmail]=useState('')
   const [password,setPassword] =useState('')
-  // const [formError,setFormError] =useState('')
+  const [formError,setFormError] =useState('')
   
-
+  const supabase = createClientComponentClient<Database>()
+  
   const handleSubmit = useCallback(async(e:React.FormEvent)=>{
     e.preventDefault()
     try{
@@ -30,6 +33,7 @@ export default function Home() {
     })
     if(error){
       toast.error('Invalid credentials')
+      setFormError('Forget Password')
     }
     else{
     toast.success('Successfully Logged in')
@@ -38,8 +42,6 @@ export default function Home() {
 
   }catch(error){
     toast.error('Invalid credentials')
-    
-    // setFormError('Forget Password')
   }
 
 },[email,password])
@@ -63,8 +65,9 @@ export default function Home() {
         <Button variant="default" type="submit" >Login</Button>
         <div className='flex flex-row text-center justify-center items-center'>
           <Link href='/register'>Create an Account</Link>
-          {/* {formError && <div className='text-center'>{formError} <Link href=''>Forget Password</Link></div>} */}
-        </div>        
+          
+        </div> 
+        {formError && <div className='text-center'> <Link href='/forgotpassword'>{formError}</Link></div>}       
       </form>
     </main>
    

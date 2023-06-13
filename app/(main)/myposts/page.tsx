@@ -13,6 +13,8 @@ import Downloads from '@/components/download/downloaded'
 import Select, { Options } from 'react-select';
 import { CloudinaryImage } from '@cloudinary/url-gen'
 import { fill } from '@cloudinary/url-gen/actions/resize'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { Database } from '@/types_db'
 
 export default function page(){
   const [selectedOption, setSelectedOption] = useState(null);
@@ -40,7 +42,7 @@ export default function page(){
       setUser(user.id)
     }
   }
-
+  const supabase = createClientComponentClient<Database>()
   const User = async () => {
     const { data: { user } } = await supabase.auth.getUser()
     if (user) {
@@ -110,7 +112,7 @@ export default function page(){
          
           toast.success('Post uploaded successfully')
           setOpen(false)
-          location.reload()
+          router.refresh()
           }
           else{
             toast.error('Unable to post')

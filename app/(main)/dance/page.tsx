@@ -7,9 +7,12 @@ import toast from 'react-hot-toast'
 import Search from '../search'
 import { CloudinaryImage } from '@cloudinary/url-gen'
 import { fill } from '@cloudinary/url-gen/actions/resize'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { Database } from '@/types_db'
 
 const page = () => {
   const [downloads,setDownload] =useState<any | null>(null)
+  const supabase = createClientComponentClient<Database>()
     useEffect(()=>{
      User()
     },[])

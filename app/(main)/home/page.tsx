@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/input'
 
 import { Select,SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectLabel, SelectItem } from '@/components/ui/select'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { supabase } from '@/app/libs/supabase'
 import Downloads from '@/components/download/downloaded'
@@ -18,6 +18,9 @@ import { CloudinaryImage } from '@cloudinary/url-gen'
 import { fill } from '@cloudinary/url-gen/actions/resize'
 import tus from 'tus-js-client'
 import { Progress } from '@/components/ui/progress'
+import { AuthContextProvider } from '@/src/utils/middleware'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { Database } from '@/types_db'
 
 
 export default function page(){
@@ -32,9 +35,12 @@ export default function page(){
   const router = useRouter()
   const [progress,setProgess] = useState(0)
 
+
+  const supabase = createClientComponentClient<Database>()
   useEffect(()=>{
    User()
    fetchPosts()
+   Session()
   },[])
 
 
@@ -42,6 +48,13 @@ export default function page(){
     const {data:{user}} =  await supabase.auth.getUser()
     if(user){
       setUser(user.id)
+    }
+  },[])
+
+  const Session =useCallback(async()=>{
+    const {data} =  await supabase.auth.getSession()
+    if(!data){
+      redirect("/")
     }
   },[])
 
@@ -145,7 +158,7 @@ export default function page(){
           setTimeout(()=>{
           toast.success('Post uploaded successfully')
           setOpen(false)
-          location.reload()
+          router.refresh()
         },100)
           }
           else{
@@ -186,6 +199,7 @@ export default function page(){
   
   },[])
   return (
+    <AuthContextProvider>
     <>
     <aside className='md:py-5'>
     <Search/>
@@ -258,6 +272,7 @@ export default function page(){
     
     </section>
     </>
+    </AuthContextProvider>
   )
 }
 

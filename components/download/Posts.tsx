@@ -13,7 +13,7 @@ interface Props{
   import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
   import { FaRegCommentDots } from 'react-icons/fa';
   import {IoMdShareAlt} from 'react-icons/io'
-  import { supabase } from '@/app/libs/supabase';
+  
   import { Dialog, DialogDescription, DialogTrigger,DialogTitle,DialogContent,DialogFooter } from '../ui/dialog';
   import { Input } from '@/components/input'
   import { Button } from '@/components/ui/button'
@@ -21,6 +21,9 @@ interface Props{
   import DisplayUser from '../dynamic user/DisplayUser';
   import DisplayComment from '../dynamic user/DisplayComment';
   import Image from 'next/image';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Database } from '@/types_db';
+import { useRouter } from 'next/navigation';
   
   const Posts = ({post}:{post:Props}) => {
     const [liked, setLiked] = useState(false)
@@ -30,7 +33,8 @@ interface Props{
     const [comments, setComments] = useState(post.comments)
     const [displaycomments,setDisplaycomments] = useState<any|null>(null)
     const [displayusers,setDisplayusers] = useState<any|null>(null)
-  
+    const Router = useRouter()
+    const supabase = createClientComponentClient<Database>()
     useEffect(() => {
       supabase
         .from('likes')
@@ -78,6 +82,7 @@ interface Props{
       } else {
         setLiked(true)
         setLikes(likes => likes + 1)
+        Router.refresh()
       }
     }
   
@@ -101,7 +106,7 @@ interface Props{
             const useri = await supabase.from('profiles').select('name').eq('id',user.id)
             // setDisplaycomments(data)
             setDisplayusers(useri.data)
-            console.log(useri)
+           
             }
   
           }
@@ -142,7 +147,7 @@ interface Props{
             toast.success('Comment added successfully')
             setOpen(false)
             setComments(comments => comments + 1)
-            location.reload()
+            Router.refresh()
           }
     }
   }
@@ -165,6 +170,7 @@ interface Props{
        
         setLiked(false)
         setLikes(likes => likes - 1)
+        Router.refresh()
         
       }
     }

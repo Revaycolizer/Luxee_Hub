@@ -5,13 +5,15 @@ import { useRouter, useParams } from 'next/navigation';
 import React from 'react';
 
 import { toast } from 'react-hot-toast';
-import { supabase } from '@/app/libs/supabase';
+
 import Search from '../../search';
 import Duser from '@/components/dynamic user/duser';
 import { CloudinaryImage } from '@cloudinary/url-gen';
 import { fill } from '@cloudinary/url-gen/actions/resize';
 import Posts from '@/components/download/Posts';
 import {SlUserFollowing,SlUserFollow} from 'react-icons/sl'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Database } from '@/types_db';
 
 
 interface User {
@@ -23,10 +25,12 @@ interface User {
 function User() {
   const searchParams = useParams();
   const id = searchParams?.id
+  const followedid = searchParams?.id.toString(); //this is the key
   const [users, setUser] = useState<any | null>(null);
   const [posts, setPosts] = useState<any | null>(null);
   const [followed, setFollowed] = useState(false);
   const [follows, setFollows] = useState(0);
+  const supabase = createClientComponentClient<Database>()
 
   useEffect(() => {
     async function fetchUser() {
@@ -93,6 +97,7 @@ async function fetchFollow() {
   if (!id) {
     toast.error('No user with that id')
   }
+  
 
 
   const handleFollow = async () => {
@@ -100,7 +105,7 @@ async function fetchFollow() {
     if (user) {
       const { error } = await supabase
         .from('follows')
-        .insert({ user_id: user.id, follow_id: id });
+        .insert({ user_id: user.id, follow_id: followedid! });
       if (error) {
         console.error(error);
       } else {

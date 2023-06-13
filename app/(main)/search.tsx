@@ -1,10 +1,13 @@
+"use client"
 import { Input } from "@/components/inputs";
 import { useCallback, useMemo, useState } from "react";
 import { BiSearch } from "react-icons/bi";
-import { supabase } from "../libs/supabase";
 import SearchedUser from "@/components/searcheduser/searcheduser";
 import toast from "react-hot-toast";
 import { Dialog, DialogContent, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
+import { createClientComponentClient} from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
+import { Database } from "@/types_db";
 
 
 
@@ -14,7 +17,7 @@ export default function search(){
     // const Home = async({searchParams={}}:HomeProps)=> {
     //     const {userId, ...params} = searchParams;
     //     const listings = await getListings({userId, ...params} ) .... }
-
+const supabase = createClientComponentClient<Database>()
     const [search,setSearch]=useState('')
     const [cusers,setCuser] = useState<any |null>(null)
 

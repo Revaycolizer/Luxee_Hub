@@ -1,3 +1,5 @@
+
+"use client"
 interface Props{
 myImage:any;
 id: number;
@@ -22,6 +24,9 @@ import DisplayUser from '../dynamic user/DisplayUser';
 import DisplayComment from '../dynamic user/DisplayComment';
 
 import Image from 'next/image';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Database } from '@/types_db';
+import { useRouter } from 'next/navigation';
 
 
 
@@ -33,9 +38,9 @@ const Downloads = ({download}:{download:Props}) => {
   const [comments, setComments] = useState(download.comments)
   const [displaycomments,setDisplaycomments] = useState<any|null>(null)
   const [displayusers,setDisplayusers] = useState<any|null>(null)
-  
+  const router = useRouter()
 
-  
+  const supabase = createClientComponentClient<Database>()
 
   useEffect(() => {
     supabase
@@ -84,6 +89,7 @@ const Downloads = ({download}:{download:Props}) => {
     } else {
       setLiked(true)
       setLikes(likes => likes + 1)
+      router.refresh()
     }
   }
 
@@ -106,7 +112,7 @@ const Downloads = ({download}:{download:Props}) => {
           if(user){
           const useri = await supabase.from('profiles').select('name').eq('id',user.id)
           setDisplayusers(useri.data)
-          console.log(useri)
+         
           }
 
         }
@@ -147,7 +153,7 @@ const handleShare = async()=>{
           toast.success('Comment added successfully')
           setOpen(false)
           setComments(comments => comments + 1)
-          location.reload()
+          router.refresh()
         }
   }
 }
@@ -167,7 +173,7 @@ const handleShare = async()=>{
      
       setLiked(false)
       setLikes(likes => likes - 1)
-      
+      router.refresh()
     }
   }
   }

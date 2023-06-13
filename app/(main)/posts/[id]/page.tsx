@@ -1,7 +1,7 @@
 "use client"
 
-import { useEffect, useState } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
+import { useRouter, useParams, redirect } from 'next/navigation';
 import React from 'react';
 
 import { toast } from 'react-hot-toast';
@@ -11,6 +11,8 @@ import Search from '../../search';
 import { CloudinaryImage } from '@cloudinary/url-gen';
 import { fill } from '@cloudinary/url-gen/actions/resize';
 import Posts from '@/components/download/Posts';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Database } from '@/types_db';
 
 
 interface User {
@@ -24,7 +26,7 @@ function Post() {
   const id = searchParams?.id
   
   const [posts, setPosts] = useState<any | null>(null);
-
+  const supabase = createClientComponentClient<Database>()
   useEffect(() => {
 
     async function fetchPosts() { 
@@ -54,6 +56,7 @@ function Post() {
     if (id) {
     //   fetchPost();
       fetchPosts();
+      Session();
     }
   }, [id]);
 
@@ -61,7 +64,12 @@ function Post() {
     toast.error('No user with that id')
   }
 
-//  
+  const Session =useCallback(async()=>{
+    const {data} =  await supabase.auth.getSession()
+    if(!data){
+      redirect("/")
+    }
+  },[])
 
   
  

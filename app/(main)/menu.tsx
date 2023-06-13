@@ -39,6 +39,8 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { Database } from '@/types_db'
 
  
 
@@ -50,6 +52,8 @@ export default function menu(){
   const btnRef = React.useRef(null)
   const [search,setSearch]=useState('')
 
+const supabase = createClientComponentClient<Database>() 
+
   const handleLog = useCallback(async()=>{
     const {error} = await supabase.auth.signOut()
     if(error){
@@ -57,6 +61,8 @@ export default function menu(){
     }else{
     toast.success('logged out successfully')
     router.push('/')
+    document.cookie = 'sb:token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+
     }
  },[])
 

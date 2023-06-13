@@ -5,10 +5,13 @@ import {useCallback} from 'react'
 import { toast } from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import { supabase } from '../libs/supabase'
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { Database } from "@/types_db"
 
 export default function avatar(){
 
    const router = useRouter()
+   const supabase = createClientComponentClient<Database>()
     const handleLog = useCallback(async()=>{
         const {error} = await supabase.auth.signOut()
         if(error){

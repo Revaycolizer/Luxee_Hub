@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '../libs/supabase';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
+import { Database } from '@/types_db';
 
 // export const Middleware = async (request: NextRequest) => {
 //     // const user = await supabase.auth.getUser()
@@ -16,15 +19,15 @@ const Protect = async ({children}: {
     children: React.ReactNode
   }) => {
     // const [user,isLoading] = useState(useUser())  
-
-    const user = await supabase.auth.getUser()
+    const supabase = createServerComponentClient<Database>({ cookies })
+    const {data} = await supabase.auth.getSession()
     const Router = useRouter()
     useEffect(()=>{
-    if(!user){
+    if(!data?.session?.user){
       Router.replace('/')
     }
   
-  },[user,Router])
+  },[data,Router])
     return (
       {children}
     )

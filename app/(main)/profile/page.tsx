@@ -2,11 +2,13 @@
 
 import { useCallback, useEffect, useState } from "react"
 import Search from "../search"
-import { supabase } from "@/app/libs/supabase"
-import { useRouter, useSearchParams } from "next/navigation"
+
+import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import Profile from "@/components/profile/Profile"
-import {NextResponse} from 'next/server'
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { Database } from "@/types_db"
+
 
 // interface Array{
 //    name:string;
@@ -27,6 +29,8 @@ export default function profile(){
   const [profiles,setProfile] = useState<any | null>(null)
 
     const router = useRouter()
+
+    const supabase = createClientComponentClient<Database>()
 
     useEffect(()=>{
      User()
