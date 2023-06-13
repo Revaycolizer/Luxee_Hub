@@ -18,7 +18,7 @@ import { CloudinaryImage } from '@cloudinary/url-gen'
 import { fill } from '@cloudinary/url-gen/actions/resize'
 import tus from 'tus-js-client'
 import { Progress } from '@/components/ui/progress'
-import { AuthContextProvider } from '@/src/utils/middleware'
+
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '@/types_db'
 
@@ -199,7 +199,7 @@ export default function page(){
   
   },[])
   return (
-    <AuthContextProvider>
+   
     <>
     <aside className='md:py-5'>
     <Search/>
@@ -272,7 +272,7 @@ export default function page(){
     
     </section>
     </>
-    </AuthContextProvider>
+  
   )
 }
 
