@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React from 'react';
 
 import { toast } from 'react-hot-toast';
@@ -31,7 +31,7 @@ function User() {
   const [followed, setFollowed] = useState(false);
   const [follows, setFollows] = useState(0);
   const supabase = createClientComponentClient<Database>()
-
+ const router = useRouter()
   useEffect(() => {
     async function fetchUser() {
       const { data, error } = await supabase
@@ -111,6 +111,7 @@ async function fetchFollow() {
       } else {
         setFollowed(true);
         setFollows(follows => follows + 1);
+        router.refresh();
       }
     }
   };
@@ -128,6 +129,7 @@ async function fetchFollow() {
       } else {
         setFollowed(false);
         setFollows(follows => follows - 1);
+        router.refresh();
       }
     }
   };
