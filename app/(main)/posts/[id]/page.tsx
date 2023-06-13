@@ -1,11 +1,11 @@
 "use client"
 
 import { useCallback, useEffect, useState } from 'react';
-import { useRouter, useParams, redirect } from 'next/navigation';
+import {  useParams, redirect } from 'next/navigation';
 import React from 'react';
 
 import { toast } from 'react-hot-toast';
-import { supabase } from '@/app/libs/supabase';
+
 import Search from '../../search';
 
 import { CloudinaryImage } from '@cloudinary/url-gen';

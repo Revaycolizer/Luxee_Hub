@@ -1,6 +1,6 @@
 "use client"
 
-import { supabase } from '@/app/libs/supabase'
+
 import Downloads from '@/components/download/downloaded'
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'

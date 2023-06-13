@@ -272,7 +272,7 @@ export default function page(){
     
     </section>
     </>
-  
+   
   )
 }
 

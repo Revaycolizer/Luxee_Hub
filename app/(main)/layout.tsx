@@ -4,8 +4,7 @@
 
 import Navbar from "@/components/NavBar/Navbar"
 import ClientOnly from "../../components/hydra/Hydra"
-import { WithPrivateRoute } from "@/src/utils/privateroute"
-import Protect from "@/src/utils/protect"
+
 
 
 
