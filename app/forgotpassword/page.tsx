@@ -1,10 +1,12 @@
 'use client'
-import { Database } from '@/types_db';
+
 import React, { useEffect, useState } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+
 import toast from 'react-hot-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/input'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Database } from '@/types_db';
 
 export default function ForgotPassword(){
 const [email,setEmail] = useState('')

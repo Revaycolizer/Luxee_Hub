@@ -14,6 +14,7 @@ import Link from 'next/link'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '@/types_db'
 
+
 export default function Register(){
     const router = useRouter()
     const [email,setEmail]=useState('')
@@ -21,7 +22,7 @@ export default function Register(){
     const [password,setPassword] =useState('')
     const [confirmpassword,setConfirmPassword] =useState('')
     const [phone,setPhone] = useState('')
-   const supabase = createClientComponentClient<Database>()
+    const supabase = createClientComponentClient<Database>()
   
     const handleSubmit =useCallback(async(e:React.FormEvent)=>{  
         e.preventDefault()

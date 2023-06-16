@@ -7,6 +7,13 @@
   }
 }
 
+
+  .you{
+    height:350px;
+    width:350px;
+  }
+
+
 .main {
   display: flex;
   flex-direction: column;
