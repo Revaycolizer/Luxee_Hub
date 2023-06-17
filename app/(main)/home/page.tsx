@@ -1,7 +1,7 @@
 "use client"
 
 
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { Suspense, useCallback, useEffect, useState } from 'react'
 import Search from '../search'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
@@ -260,8 +260,8 @@ export default function page(){
     </Dialog></form></div>
     <section className='py-4'>
     <div className=' px-6 flex flex-col  justify-between  gap-3 md:grid grid-cols-2 lg:grid lg:grid-cols-4 md:gap-5 lg:gap-5'>
-      
-    {downloads && (downloads).map((download:any)=>(<Downloads key={download.id} download={download}/>))}
+    
+    {downloads && (downloads).map((download:any)=>(  <Suspense fallback={<p className='pt-56'>Loading Posts...</p>}><Downloads key={download.id} download={download}/> </Suspense>))}
     
     {/* {dfiles && dfiles.map((dfile:any)=>(<File key={dfile.id} dfile={dfile}/>))} */}
     {/* {Object.keys(downloads).map((value)=>{return(

@@ -12,7 +12,19 @@
     height:350px;
     width:350px;
   }
+  @media(max-width:820px){
+    .you{
+      height:370px;
+      width:370px;
+    }
+  }
 
+  @media(max-width:520px){
+    .you{
+      height:370px;
+      width:370px;
+    }
+  }
 
 .main {
   display: flex;
